@@ -377,3 +377,7 @@ swagger.yaml
 # Local Binaries
 bin/
 obj/
+.vs/
+
+# Mac files
+**/.DS_Store
