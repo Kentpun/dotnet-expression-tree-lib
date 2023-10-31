@@ -1,0 +1,36 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../../.nuget/NuGet/NuGet.Config">
+    <Files>
+      <File FileName="ExpressionTree/Components/ArithmeticOperators.cs" Line="14" Column="1" />
+      <File FileName="ExpressionTree/Components/Node.cs" Line="20" Column="2" />
+      <File FileName="ExpressionTree/Components/LogicalOperators.cs" Line="8" Column="7" />
+      <File FileName="ExpressionTree/ExpressionTree.cs" Line="100" Column="10" />
+      <File FileName="../../../../../.nuget/NuGet/NuGet.Config" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="HKSH.HIS5.LIB.DS">
+            <Node name="NuGet.Config files" expanded="True">
+              <Node name="~/.nuget/NuGet/NuGet.Config" selected="True" />
+            </Node>
+            <Node name="HKSH.HIS5.LIB.DS" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="FrameworkReferences" expanded="True" />
+              </Node>
+              <Node name="ExpressionTree" expanded="True">
+                <Node name="Components" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+</Properties>
