@@ -373,3 +373,7 @@ FodyWeavers.xsd
 # Swagger File
 swagger.json
 swagger.yaml
+
+# Local Binaries
+bin/
+obj/
