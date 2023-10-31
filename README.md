@@ -3,7 +3,7 @@ Supports Logical and Arithmetic Expression
 
 ## Usage
 
-1. Convert Infix Expression to Postfix
+#### 1. Convert Infix Expression to Postfix
 Function:
 ```
 ArithmeticExpressionConverter.ConvertInfixToPostfix(infix);
@@ -22,7 +22,7 @@ Sample Output:
 A B + C +
 ```
 
-2. Build Expression Tree
+#### 2. Build Expression Tree
 Function:
 ```
 ArithmeticExpressionTree.BuildExpressionTree<T>(List<string> postfix, List<NodeData> dataList)
@@ -42,7 +42,7 @@ dataList.Add(new TestData(id: "C", des: "CCC", amount: 3));
 Node<string> node = ArithmeticExpressionTree.BuildExpressionTree<string>(postfix: tokens, dataList: dataList);
 ```
 
-3. Convert Postfix Expression to Infix
+#### 3. Convert Postfix Expression to Infix
 Function:
 ```
 ExpressionTree.printInorder<T>(Node<T> root)
@@ -59,7 +59,7 @@ Sample Output:
 ]
 ```
 
-4. Evaluate Expression Tree
+#### 4. Evaluate Expression Tree
 Function: 
 ```
 ArithmeticExpressionTree.EvaluateTree<T>(Node<T>? root)
