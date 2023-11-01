@@ -3,6 +3,11 @@ Supports Logical and Arithmetic Expression
 
 ## Usage
 
+#### 1. Instantiate Tree
+```
+LogicalExpressionTree tree = new LogicalExpressionTree(name: "test", postfix: tokens, dataList: dataList);
+ArithmeticExpressionTree tree = new ArithmeticExpressionTree(name: "test", postfix: tokens, dataList: dataList);
+```
 #### 1. Convert Infix Expression to Postfix
 Function:
 ```
@@ -22,13 +27,10 @@ Sample Output:
 A B + C +
 ```
 
-#### 2. Build Expression Tree
+#### 2. ReBuild Expression Tree
 Function:
 ```
-ArithmeticExpressionTree.BuildExpressionTree<T>(List<string> postfix, List<NodeData> dataList)
-```
-```
-LogicalExpressionTree.BuildExpressionTree<T>(List<string> postfix, List<NodeData> dataList)
+tree.BuildExpressionTree(List<string> postfix, List<NodeData> dataList)
 ```
 
 Sample Usage:
@@ -36,10 +38,11 @@ Sample Usage:
 string postfix = ArithmeticExpressionConverter.ConvertInfixToPostfix(infix);
 List<string> tokens = postfix.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
 List<NodeData> dataList = new List<NodeData>();
-dataList.Add(new TestData(id: "A", des: "AAA", amount: 1));
-dataList.Add(new TestData(id: "B", des: "BBB", amount: 2));
-dataList.Add(new TestData(id: "C", des: "CCC", amount: 3));
-Node<string> node = ArithmeticExpressionTree.BuildExpressionTree<string>(postfix: tokens, dataList: dataList);
+dataList.Add(new TestData(id: "A", des: "AAA", amount: (float) 1.0));
+dataList.Add(new TestData(id: "B", des: "BBB", amount: (float) 2.0));
+dataList.Add(new TestData(id: "C", des: "CCC", amount: (float) 3.0));
+ArithmeticExpressionTree tree = new ArithmeticExpressionTree("test", postfix: tokens, dataList: dataList);
+tree.BuildExpressionTree(tokens, dataList);
 ```
 
 #### 3. Convert Postfix Expression to Infix
@@ -62,10 +65,7 @@ Sample Output:
 #### 4. Evaluate Expression Tree
 Function: 
 ```
-ArithmeticExpressionTree.EvaluateTree<T>(Node<T>? root)
-```
-```
-LogicalExpressionTree.EvaluateTree<T>(Node<T>? root)
+tree.Evaluate()
 ```
 
 Sample Usage:
@@ -76,6 +76,7 @@ List<NodeData> dataList = new List<NodeData>();
 dataList.Add(new TestData(id: "A", des: "AAA", amount: (float) 1.0));
 dataList.Add(new TestData(id: "B", des: "BBB", amount: (float) 2.0));
 dataList.Add(new TestData(id: "C", des: "CCC", amount: (float) 3.0));
-Node<string> node = ArithmeticExpressionTree.BuildExpressionTree<string>(postfix: tokens, dataList: dataList);
-float result = ArithmeticExpressionTree.EvaluateTree(node);
+ArithmeticExpressionTree tree = new ArithmeticExpressionTree("test", postfix: tokens, dataList: dataList);
+
+float result = tree.Evaluate();
 ```

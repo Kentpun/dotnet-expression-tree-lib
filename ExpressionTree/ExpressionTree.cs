@@ -4,8 +4,12 @@ using HKSH.HIS5.LIB.DS.ExpressionTree.Components;
 
 namespace HKSH.HIS5.LIB.DS.ExpressionTree
 {
-    public abstract class ExpressionTree
+    public abstract class ExpressionTree<T>
     {
+        public string? Name { get; set; }
+        public Node<T>? RootNode { get; set; }
+
+
         public static bool isArithmeticOperator(string token)
         {
             if (token.Length == 1)
@@ -52,15 +56,11 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             return resultListInOrder;
         }
 
-        public static Node<string> BuildExpressionTree<T>(List<string> postfix, List<NodeData> dataList)
-        {
-            throw new NotImplementedException();
-        }
+        //public abstract Node<string> BuildExpressionTree<T>(List<string> postfix, List<NodeData> dataList);
 
-        public static float EvaluateTree<T>(Node<T>? root)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void BuildExpressionTree(List<string> postfix, List<NodeData> dataList);
+
+        public abstract float Evaluate();
     }
 }
 

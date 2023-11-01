@@ -4,7 +4,7 @@ using HKSH.HIS5.LIB.DS.ExpressionTree.Components;
 
 namespace HKSH.HIS5.LIB.DS.ExpressionTree
 {
-	public class ArithmeticExpressionConverter
+	public static class ArithmeticExpressionConverter
 	{
 
         internal static Dictionary<ArithmeticOperator, int> precedence = new Dictionary<ArithmeticOperator, int>()

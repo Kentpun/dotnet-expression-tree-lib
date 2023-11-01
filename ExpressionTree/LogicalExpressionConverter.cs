@@ -5,7 +5,7 @@ using HKSH.HIS5.LIB.DS.ExpressionTree.Components;
 
 namespace HKSH.HIS5.LIB.DS.ExpressionTree
 {
-	public class LogicalExpressionConverter
+	public static class LogicalExpressionConverter
 	{
         private static Dictionary<LogicalOperator, int> precedence = new Dictionary<LogicalOperator, int>()
         {

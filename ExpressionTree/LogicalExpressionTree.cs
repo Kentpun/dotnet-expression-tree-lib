@@ -3,9 +3,20 @@ using HKSH.HIS5.LIB.DS.ExpressionTree.Components;
 
 namespace HKSH.HIS5.LIB.DS.ExpressionTree
 {
-	public class LogicalExpressionTree : ExpressionTree
+	public class LogicalExpressionTree : ExpressionTree<string>
 	{
-        public static new Node<string> BuildExpressionTree<T>(List<string> postfix, List<NodeData> dataList)
+        public LogicalExpressionTree(string name)
+        {
+            this.Name = name;
+        }
+
+        public LogicalExpressionTree(string name, List<string> postfix, List<NodeData> dataList)
+        {
+            this.Name = name;
+            this.RootNode = this.BuildExpressionTree<string>(postfix: postfix, dataList: dataList);
+        }
+
+        private Node<string> BuildExpressionTree<T>(List<string> postfix, List<NodeData> dataList)
         {
             Stack<Node<string>> stack = new Stack<Node<string>>();
 
@@ -33,7 +44,17 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             return root;
         }
 
-        public static new float EvaluateTree<T>(Node<T>? root)
+        public override void BuildExpressionTree(List<string> postfix, List<NodeData> dataList)
+        {
+            this.RootNode = this.BuildExpressionTree<string>(postfix: postfix, dataList: dataList);
+        }
+
+        public override float Evaluate()
+        {
+            return this.EvaluateTree<string>(this.RootNode);
+        }
+
+        private float EvaluateTree<T>(Node<T>? root)
         {
             float value = 0;
             if (root == null)
