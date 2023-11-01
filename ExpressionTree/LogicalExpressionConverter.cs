@@ -16,8 +16,76 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             {LogicalOperator.CLOSEBRACKET, -1}
         };
 
+        private static bool ValidateInfixExpression(string infixExpression)
+        {
+            string[] infixElements = infixExpression.Split(' ');
+            // Check for null or empty expression
+            if (string.IsNullOrEmpty(infixExpression))
+            {
+                return false;
+            }
+
+            // Stack to validate parentheses
+            Stack<string> parenthesesStack = new Stack<string>();
+            bool isOperandExpected = true;
+
+            foreach (string ele in infixElements)
+            {
+                // Check for valid characters
+                if (!IsOperator(ele) && !IsOperand(ele))
+                {
+                    return false;
+                }
+
+                if (isOperandExpected)
+                {
+                    if (IsOperand(ele))
+                        isOperandExpected = false;
+                    else if (ele.Length == 1 && ele[0] != '(')
+                        return false;
+
+                }
+                else
+                {
+                    if (IsOperator(ele))
+                        isOperandExpected = true;
+                    else if (ele.Length == 1 && ele[0] == ')')
+                        return false;
+                }
+
+                // Check parentheses balance
+                if (ele.Length == 1 && ele[0] == '(')
+                {
+                    parenthesesStack.Push(ele);
+                }
+                else if (ele.Length == 1 && ele[0] == ')')
+                {
+                    if (parenthesesStack.Count == 0)
+                    {
+                        return false; // Unbalanced parentheses
+                    }
+                    parenthesesStack.Pop();
+                }
+
+                // Add other validation checks based on your specific requirements
+            }
+
+            // Check for unbalanced parentheses
+            if (parenthesesStack.Count != 0)
+                return false;
+
+            if (isOperandExpected)
+                return false;
+
+            return true; // Valid expression
+        }
+
+
         public static string ConvertInfixToPostfix(string infixExpression)
         {
+            if (!ValidateInfixExpression(infixExpression))
+                throw new ArgumentException("Invalid InfixExpression");
+
             Stack<LogicalOperator> operatorStack = new Stack<LogicalOperator>();
             StringBuilder postfix = new StringBuilder();
 
