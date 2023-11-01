@@ -34,9 +34,19 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             return false;
         }
 
+        private static bool IsParentheses(string token)
+        {
+            if (token.Length == 1)
+            {
+                char symbol = token[0];
+                return Enum.IsDefined(typeof(Parentheses), (int)symbol);
+            }
+            return false;
+        }
+
         private static bool ValidateInfixExpression(string infixExpression)
         {
-            string[] infixElements = infixExpression.Split(' ');
+            string[] infixElements = infixExpression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             // Check for null or empty expression
             if (string.IsNullOrEmpty(infixExpression))
             {
@@ -50,7 +60,7 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             foreach (string ele in infixElements)
             {
                 // Check for valid characters
-                if (!IsOperator(ele) && !IsOperand(ele))
+                if (!IsOperator(ele) && !IsOperand(ele) && !IsParentheses(ele))
                 {
                     return false;
                 }
@@ -59,14 +69,14 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
                 {
                     if (IsOperand(ele))
                         isOperandExpected = false;
-                    else if (ele.Length == 1 && ele[0] != '(')
+                    else if (ele != "(")
                         return false;
-                    
-                } else
+                }
+                else
                 {
-                    if (IsOperator(ele))
+                    if (IsOperator(ele) && !IsParentheses(ele))
                         isOperandExpected = true;
-                    else if (ele.Length == 1 && ele[0] == ')')
+                    else if (ele != ")")
                         return false;
                 }
 

@@ -16,9 +16,29 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             {LogicalOperator.CLOSEBRACKET, -1}
         };
 
+        private static bool IsOperand(string token)
+        {
+            return !IsOperator(token) && token != "(" && token != ")";
+        }
+
+        private static bool IsOperator(string token)
+        {
+            return Enum.TryParse<LogicalOperator>(token, out _);
+        }
+
+        private static bool IsParentheses(string token)
+        {
+            if (token.Length == 1)
+            {
+                char symbol = token[0];
+                return Enum.IsDefined(typeof(Parentheses), (int)symbol);
+            }
+            return false;
+        }
+
         private static bool ValidateInfixExpression(string infixExpression)
         {
-            string[] infixElements = infixExpression.Split(' ');
+            string[] infixElements = infixExpression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             // Check for null or empty expression
             if (string.IsNullOrEmpty(infixExpression))
             {
@@ -32,7 +52,7 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             foreach (string ele in infixElements)
             {
                 // Check for valid characters
-                if (!IsOperator(ele) && !IsOperand(ele))
+                if (!IsOperator(ele) && !IsOperand(ele) && !IsParentheses(ele))
                 {
                     return false;
                 }
@@ -41,15 +61,14 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
                 {
                     if (IsOperand(ele))
                         isOperandExpected = false;
-                    else if (ele.Length == 1 && ele[0] != '(')
+                    else if (ele != "(")
                         return false;
-
                 }
                 else
                 {
-                    if (IsOperator(ele))
+                    if (IsOperator(ele) && !IsParentheses(ele))
                         isOperandExpected = true;
-                    else if (ele.Length == 1 && ele[0] == ')')
+                    else if (ele != ")")
                         return false;
                 }
 
@@ -141,16 +160,6 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             }
 
             return postfix.ToString().Trim();
-        }
-
-        private static bool IsOperand(string token)
-        {
-            return !IsOperator(token) && token != "(" && token != ")";
-        }
-
-        private static bool IsOperator(string token)
-        {
-            return Enum.TryParse<LogicalOperator>(token, out _);
         }
             
     }

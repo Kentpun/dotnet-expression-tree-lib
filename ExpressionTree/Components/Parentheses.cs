@@ -1,10 +1,10 @@
 ﻿using System;
 namespace HKSH.HIS5.LIB.DS.ExpressionTree.Components
 {
-	public enum Bracket
+	public enum Parentheses
 	{
-        OPENBRACKET,
-        CLOSEBRACKET
+        OPENBRACKET = '(',
+        CLOSEBRACKET = ')'
     }
 }
 
