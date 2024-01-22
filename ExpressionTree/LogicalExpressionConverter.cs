@@ -23,6 +23,7 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
 
         private static bool IsOperator(string token)
         {
+            return Enum.GetNames<LogicalOperator>().AsEnumerable().Any(c => c == token);
             return Enum.TryParse<LogicalOperator>(token, out _);
         }
 

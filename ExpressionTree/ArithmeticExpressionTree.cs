@@ -10,22 +10,31 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             this.Name = name;
         }
 
-        public ArithmeticExpressionTree(string name, List<string> postfix, List<NodeData> dataList)
+        public ArithmeticExpressionTree(string name, string infix, List<NodeData> dataList)
         {
             this.Name = name;
-            this.RootNode = this.BuildExpressionTree<string>(postfix: postfix, dataList: dataList);
+            
+            string postfixExpression = ArithmeticExpressionConverter.ConvertInfixToPostfix(NormalizeExpression(infix)); 
+            List<string> postfixTokens = postfixExpression.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> infixTokens = Tokenize(infix);
+            
+            this.RootNode = this.BuildExpressionTree<string>(
+                postfix: postfixTokens, 
+                originalInfixTokens: infixTokens, 
+                dataList: dataList);
         }
 
-        private Node<string> BuildExpressionTree<T>(List<string> postfix, List<NodeData> dataList)
+        private Node<string> BuildExpressionTree<T>(List<string> postfix, List<string> originalInfixTokens, List<NodeData> dataList)
         {
             Stack<Node<string>> stack = new Stack<Node<string>>();
-
+            int operandIndex = -1;
             foreach (string token in postfix)
             {
                 if (!isArithmeticOperator(token))
                 {
                     Node<string> temp = new Node<string>(value: token, data: dataList.Find(d => d.Id == token));
                     stack.Push(temp);
+                    operandIndex = originalInfixTokens.IndexOf(token);
                 }
                 else
                 {
@@ -36,6 +45,9 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
                     temp.Left = t2;
                     temp.Right = t1;
 
+                    // Set HasParentheses based on original tokenization
+                    temp.HasParentheses = CheckParentheses(operandIndex - 1, originalInfixTokens);
+                    
                     stack.Push(temp);
                 }
             }
@@ -44,9 +56,15 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             return root;
         }
 
-        public override void BuildExpressionTree(List<string> postfix, List<NodeData> dataList)
+        public override void BuildExpressionTree(string infix, List<NodeData> dataList)
         {
-            this.RootNode = this.BuildExpressionTree<string>(postfix: postfix, dataList: dataList);
+            string postfixExpression = ArithmeticExpressionConverter.ConvertInfixToPostfix(NormalizeExpression(infix)); 
+            List<string> postfixTokens = postfixExpression.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> infixTokens = Tokenize(infix);
+            this.RootNode = this.BuildExpressionTree<string>(
+                postfix: postfixTokens, 
+                originalInfixTokens: infixTokens, 
+                dataList: dataList);
         }
 
         public override float Evaluate()

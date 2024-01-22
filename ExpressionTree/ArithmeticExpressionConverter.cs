@@ -26,7 +26,7 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
 
         private static bool IsOperator(string token)
         {
-            if (token.Length == 1)
+            if (token.Length == 1 && !Char.IsNumber(token[0]))
             {
                 char symbol = token[0];
                 return Enum.IsDefined(typeof(ArithmeticOperator), (int)symbol);

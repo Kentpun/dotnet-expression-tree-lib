@@ -1,0 +1,13 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/modules.xml
+/projectSettingsUpdater.xml
+/.idea.HKSH.HIS5.LIB.DS.iml
+/contentModel.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
