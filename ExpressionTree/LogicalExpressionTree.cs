@@ -27,7 +27,6 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
         private Node<string> BuildExpressionTree<T>(List<string> postfix, List<string> originalInfixTokens, List<NodeData> dataList)
         {
             Stack<Node<string>> stack = new Stack<Node<string>>();
-            int operandIndex = -1;
             Stack<int> openingParenthesesStack = new Stack<int>();
             foreach (string token in postfix)
             {
@@ -36,7 +35,6 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
                 {
                     Node<string> temp = new Node<string>(value: token, data: dataList.Find(d => d.Id == token));
                     stack.Push(temp);
-                    operandIndex = originalInfixTokens.IndexOf(token);
                 }
                 else
                 {

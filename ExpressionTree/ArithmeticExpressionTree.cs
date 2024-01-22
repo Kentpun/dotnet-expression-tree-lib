@@ -28,14 +28,12 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
         private Node<string> BuildExpressionTree<T>(List<string> postfix, List<string> originalInfixTokens, List<NodeData> dataList)
         {
             Stack<Node<string>> stack = new Stack<Node<string>>();
-            int operatorIndex = -1;
             foreach (string token in postfix)
             {
                 if (!isArithmeticOperator(token))
                 {
                     Node<string> temp = new Node<string>(value: token, data: dataList.Find(d => d.Id == token));
                     stack.Push(temp);
-                    // operandIndex = originalInfixTokens.IndexOf(token);
                 }
                 else
                 {

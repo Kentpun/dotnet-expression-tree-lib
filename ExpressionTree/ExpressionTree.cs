@@ -85,7 +85,7 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             if (isLogicalOperator(currentNode.getValue()) || isArithmeticOperator(currentNode.getValue())
                 && currentNode.Right != null)
             {
-                return LeftMostNode(currentNode.Right);
+                return RightMostNode(currentNode.Right);
             }
             return currentNode.getValue();
         }
@@ -102,7 +102,7 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
                 else break;
             }
             int closeBracketCount = 0;
-            for (int i = infixTokens.IndexOf(rightMostValue)+1; i < infixTokens.Count; i--)
+            for (int i = infixTokens.IndexOf(rightMostValue)+1; i < infixTokens.Count; i++)
             {
                 if (infixTokens[i] == ")") closeBracketCount++;
                 else break;
