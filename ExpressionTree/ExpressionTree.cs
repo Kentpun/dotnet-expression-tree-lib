@@ -69,44 +69,64 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
             infixExpression = Regex.Replace(infixExpression, @"([()])", " $1 ");
             return infixExpression.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
         }
-        
-        public static bool CheckParentheses(int index, List<string> infixTokens)
+
+        private static string LeftMostNode(Node<T> currentNode)
         {
-            Stack<string> operatorStack = new Stack<string>();
-            bool hasOpenBracket = false;
-            bool hasCloseBracket = false;
-            for (int i = index; i >= 0; i--)
+            if (isLogicalOperator(currentNode.getValue()) || isArithmeticOperator(currentNode.getValue())
+                && currentNode.Left != null)
             {
-                if (infixTokens[i] == ")")
-                    operatorStack.Push(")");
-                if (infixTokens[i] == "(")
-                {
-                    if (operatorStack.Count != 0)
-                        operatorStack.Pop();
-                    else
-                    {
-                        hasOpenBracket = true;
-                        break;
-                    }
-                }
+                return LeftMostNode(currentNode.Left);
+            }
+            return currentNode.getValue();
+        }
+        
+        private static string RightMostNode(Node<T> currentNode)
+        {
+            if (isLogicalOperator(currentNode.getValue()) || isArithmeticOperator(currentNode.getValue())
+                && currentNode.Right != null)
+            {
+                return LeftMostNode(currentNode.Right);
+            }
+            return currentNode.getValue();
+        }
+        
+        public static bool CheckParentheses(Node<T> currentNode, int parenthesesCountLeft, 
+            int parenthesesCountRight, List<string> infixTokens)
+        {
+            string leftMostValue = LeftMostNode(currentNode);
+            string rightMostValue = RightMostNode(currentNode);
+            int openBracketCount = 0;
+            for (int i = infixTokens.IndexOf(leftMostValue)-1; i >= 0; i--)
+            {
+                if (infixTokens[i] == "(") openBracketCount++;
+                else break;
+            }
+            int closeBracketCount = 0;
+            for (int i = infixTokens.IndexOf(rightMostValue)+1; i < infixTokens.Count; i--)
+            {
+                if (infixTokens[i] == ")") closeBracketCount++;
+                else break;
+            }
+            return (openBracketCount >= parenthesesCountLeft && closeBracketCount >= parenthesesCountRight);
+        }
+
+        public static int GetOperatorWithParenthesesCount(Node<T> node)
+        {
+            int count = 0;
+
+            if (node.Left != null)
+            {
+                count += GetOperatorWithParenthesesCount(node.Left);
+            }
+            if (node.Right != null)
+            {
+                count += GetOperatorWithParenthesesCount(node.Right);
             }
 
-            for (int i = index; i < infixTokens.Count; i++)
-            {
-                if (infixTokens[i] == "(")
-                    operatorStack.Push("(");
-                if (infixTokens[i] == ")")
-                {
-                    if (operatorStack.Count != 0)
-                        operatorStack.Pop();
-                    else
-                    {
-                        hasCloseBracket = true;
-                        break;
-                    }
-                }
-            }
-            return (hasCloseBracket && hasOpenBracket);
+            if ((isLogicalOperator(node.getValue()) || isArithmeticOperator(node.getValue())) 
+                && node.HasParentheses) 
+                count++;
+            return count;
         }
 
         //public abstract Node<string> BuildExpressionTree<T>(List<string> postfix, List<NodeData> dataList);

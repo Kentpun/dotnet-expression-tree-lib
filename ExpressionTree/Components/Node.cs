@@ -16,9 +16,9 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree.Components
             Left = Right = null;
         }
 
-        public string? getValue()
+        public string getValue()
         {
-            return Value?.ToString();
+            return Value.ToString();
         }
     }
 }

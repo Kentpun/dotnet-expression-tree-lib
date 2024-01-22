@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using HKSH.HIS5.LIB.DS.ExpressionTree.Components;
 
 namespace HKSH.HIS5.LIB.DS.ExpressionTree
@@ -27,14 +28,14 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
         private Node<string> BuildExpressionTree<T>(List<string> postfix, List<string> originalInfixTokens, List<NodeData> dataList)
         {
             Stack<Node<string>> stack = new Stack<Node<string>>();
-            int operandIndex = -1;
+            int operatorIndex = -1;
             foreach (string token in postfix)
             {
                 if (!isArithmeticOperator(token))
                 {
                     Node<string> temp = new Node<string>(value: token, data: dataList.Find(d => d.Id == token));
                     stack.Push(temp);
-                    operandIndex = originalInfixTokens.IndexOf(token);
+                    // operandIndex = originalInfixTokens.IndexOf(token);
                 }
                 else
                 {
@@ -44,9 +45,18 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
 
                     temp.Left = t2;
                     temp.Right = t1;
-
+                    int countLeft = 1;
+                    int countRight = 1;
+                    if (isArithmeticOperator(temp.Left.getValue()))
+                    {
+                        countLeft += GetOperatorWithParenthesesCount(temp.Left);
+                    }
+                    if (isArithmeticOperator(temp.Right.getValue()))
+                    {
+                        countRight += GetOperatorWithParenthesesCount(temp.Right);
+                    }
                     // Set HasParentheses based on original tokenization
-                    temp.HasParentheses = CheckParentheses(operandIndex - 1, originalInfixTokens);
+                    temp.HasParentheses = CheckParentheses(temp, countLeft, countRight, originalInfixTokens);
                     
                     stack.Push(temp);
                 }

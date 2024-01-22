@@ -47,15 +47,19 @@ namespace HKSH.HIS5.LIB.DS.ExpressionTree
                     temp.Left = t2;
                     temp.Right = t1;
                     
-                    // Set HasParentheses based on original tokenization
-                    temp.HasParentheses = CheckParentheses(operandIndex - 1, originalInfixTokens);
-                    stack.Push(temp);
-                    
-                    // Pop the corresponding opening parenthesis index
-                    if (openingParenthesesStack.Count > 0)
+                    int countLeft = 1;
+                    int countRight = 1;
+                    if (isLogicalOperator(temp.Left.getValue()))
                     {
-                        openingParenthesesStack.Pop();
+                        countLeft += GetOperatorWithParenthesesCount(temp.Left);
                     }
+                    if (isLogicalOperator(temp.Right.getValue()))
+                    {
+                        countRight += GetOperatorWithParenthesesCount(temp.Right);
+                    }
+                    // Set HasParentheses based on original tokenization
+                    temp.HasParentheses = CheckParentheses(temp, countLeft, countRight, originalInfixTokens);
+                    stack.Push(temp);
                 }
             }
 
