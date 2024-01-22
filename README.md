@@ -1,20 +1,23 @@
 ## Description
 Supports Logical and Arithmetic Expression
 
+Infix Expression - mathematical expression in which operators are placed between the operands.
+<br>
+Assume operators and operands in the infix expression are separated by a space " ".
 ## Usage
 
 #### 1. Instantiate Tree
 ```
-LogicalExpressionTree tree = new LogicalExpressionTree(name: "test", postfix: tokens, dataList: dataList);
-ArithmeticExpressionTree tree = new ArithmeticExpressionTree(name: "test", postfix: tokens, dataList: dataList);
+LogicalExpressionTree tree = new LogicalExpressionTree("Tree Name", infix: infix, dataList: dataList);
+ArithmeticExpressionTree tree = new ArithmeticExpressionTree("test", infix, dataList);
 ```
 #### 1. Convert Infix Expression to Postfix
 Function:
 ```
-ArithmeticExpressionConverter.ConvertInfixToPostfix(infix);
+ArithmeticExpressionConverter.ConvertInfixToPostfix(ArithmeticExpressionTree.NormalizeExpression(infix2));
 ```
 ```
-LogicalExpressionConverter.ConvertInfixToPostfix(infix);
+LogicalExpressionConverter.ConvertInfixToPostfix(ExpressionTree<T>.NormalizeExpression(infix2));
 ```
 
 Sample Input:
@@ -30,25 +33,27 @@ A B + C +
 #### 2. ReBuild Expression Tree
 Function:
 ```
-tree.BuildExpressionTree(List<string> postfix, List<NodeData> dataList)
+tree.BuildExpressionTree(newInfix, newDataList);
 ```
 
 Sample Usage:
 ```
-string postfix = ArithmeticExpressionConverter.ConvertInfixToPostfix(infix);
-List<string> tokens = postfix.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+string infix = "((1 + 4) * (2 + 3))";
 List<NodeData> dataList = new List<NodeData>();
-dataList.Add(new TestData(id: "A", des: "AAA", amount: (float) 1.0));
-dataList.Add(new TestData(id: "B", des: "BBB", amount: (float) 2.0));
-dataList.Add(new TestData(id: "C", des: "CCC", amount: (float) 3.0));
-ArithmeticExpressionTree tree = new ArithmeticExpressionTree("test", postfix: tokens, dataList: dataList);
-tree.BuildExpressionTree(tokens, dataList);
+dataList.Add(new TestData(id: "1", des: "AAA", amount: (float) 1.0));
+dataList.Add(new TestData(id: "4", des: "AAA", amount: (float) 4.0));
+dataList.Add(new TestData(id: "2", des: "BBB", amount: (float) 2.0));
+dataList.Add(new TestData(id: "3", des: "CCC", amount: (float) 3.0));
+
+ArithmeticExpressionTree tree2 = new ArithmeticExpressionTree("Arithmetic Tree", infix, dataList);
+// new infix and new DataList
+tree.BuildExpressionTree(newInfix, newDataList);
 ```
 
 #### 3. Convert Postfix Expression to Infix
 Function:
 ```
-ExpressionTree.printInorder<T>(Node<T> root)
+ExpressionTree.printInorder<T>(Node<T> rootNode)
 ```
 Sample Input:
 ```
@@ -58,7 +63,7 @@ Sample Input:
 Sample Output:
 ```
 [
-  "(","(","A","AND","B",")","AND","C",")"
+  "(","A","AND","B",")","AND","C"
 ]
 ```
 
@@ -70,13 +75,16 @@ tree.Evaluate()
 
 Sample Usage:
 ```
-string postfix = ArithmeticExpressionConverter.ConvertInfixToPostfix(infix);
-List<string> tokens = postfix.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
-List<NodeData> dataList = new List<NodeData>();
-dataList.Add(new TestData(id: "A", des: "AAA", amount: (float) 1.0));
-dataList.Add(new TestData(id: "B", des: "BBB", amount: (float) 2.0));
-dataList.Add(new TestData(id: "C", des: "CCC", amount: (float) 3.0));
-ArithmeticExpressionTree tree = new ArithmeticExpressionTree("test", postfix: tokens, dataList: dataList);
+Console.WriteLine("Arithmetic");
+string infix2 = "((1 + 4) * (2 + 3))";
+List<NodeData> dataList2 = new List<NodeData>();
+dataList2.Add(new TestData(id: "1", des: "AAA", amount: (float) 1.0));
+dataList2.Add(new TestData(id: "4", des: "AAA", amount: (float) 4.0));
+dataList2.Add(new TestData(id: "2", des: "BBB", amount: (float) 2.0));
+dataList2.Add(new TestData(id: "3", des: "CCC", amount: (float) 3.0));
 
-float result = tree.Evaluate();
+ArithmeticExpressionTree tree2 = new ArithmeticExpressionTree("test", infix2, dataList2);
+
+float result2 = tree2.Evaluate();
+Console.WriteLine(result2);
 ```
